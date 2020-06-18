@@ -26,13 +26,19 @@
 			margin: 10px;
 			border-radius: 10px
 		}
+		.title{
+			display: flex;user-select:none;align-items: center;
+		}
+
+
 	</style>
 </head>
 <body>
 	<div id="app">
+		<input v-focus></input>
 		<div class="collapse-item">
 			<input type="checkbox" id="collapse1" checked name="collapse" class="collapse-toggle"></input>
-			<label style="display: flex;" for="collapse1">
+			<label class="title" for="collapse1">
 				<div>第一个collapse</div>
 				<img class="not-show" style="width: 20px;height: 20px;" src="http://csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
 				<img class="show" style="width: 20px;height: 20px;" src="https://img-blog.csdnimg.cn/2019091813595558.png">
@@ -48,9 +54,9 @@
 
 		<div class="collapse-item">
 			<input type="checkbox" id="collapse2" checked="" name="collapse" class="collapse-toggle"></input>
-			<label style="display: flex;" for="collapse2">
+			<label class="title" for="collapse2">
 				<div>第二个collapse</div>
-				<img class="not-show" style="width: 20px;height: 20px;" src="http://csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+				<img class="not-show"  style="width: 20px;height: 20px;" src="http://csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
 				<img class="show" style="width: 20px;height: 20px;" src="https://img-blog.csdnimg.cn/2019091813595558.png">
 			</label>
 			<div class="content">
@@ -61,16 +67,40 @@
 				这个是切<br/>换<br/>内容<br/>
 			</div>
 		</div>
+
+		<div style="height:50px;width:50px;border:1px solid red;position:relative;">	
+			<img class="show" v-bind:style="styleObject" src="https://img-blog.csdnimg.cn/2019091813595558.png">
+		</div>
+		<div style="text-align: center;
+            vertical-align:middle;width: 50px;
+            height: 50px;
+            border: 1px solid #000;">	
+			<span style="height: 100%;vertical-align: middle;display: inline-block"></span>
+			<img class="show" style="vertical-align: middle;width: 20px;height: 20px;" src="https://img-blog.csdnimg.cn/2019091813595558.png">
+		</div>
 	</div>
 	<script type="text/javascript">
+			Vue.directive('focus', {
+				inserted(el){
+					el.focus();
+				},
+			});
+			Vue.mixin({
+				created(){
+					var option=this.$options.option;
+					console.log(option);
+				}
+			});
+
 		var app = new Vue({
+			option:"222",
 			el: '#app',
 			data: {
+				styleObject:{width: "20px",height: "20px",position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)"},
 				message: 'Hello Vue!',
 				menu:[{title:"哈哈哈", IsShow:true},{title:"哼哼哼", IsShow:true}]
 			},
 			mounted(){
-				this.$route.params.id
 			},
 			methods:{
 				changeShowStatus(index){
